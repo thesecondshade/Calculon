@@ -145,7 +145,7 @@ let rec eval_expr varmap expr =
   | Apply(apply) ->                                                  (* function application *)
      begin                                                           (* IMPLEMENT #4: evaluate the application expression *)
        let input = eval_expr varmap apply.param_expr in
-       match input with func_expr.param_name -> eval_expr varmap apply.func_expr;
+       match input with param_name -> eval_expr varmap apply.func_expr;
 
        raise (eval_error "Function application is not yet implemented" varmap expr)
      end              
