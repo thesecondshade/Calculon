@@ -149,6 +149,7 @@ let rec eval_expr varmap expr =
        | Closure(c) -> 
         let newpar = eval_expr varmap apply.param_expr in
         c.varmap <- Varmap.add c.param_name newpar c.varmap;
+        eval_expr c.varmap c.code_expr
        | _ -> raise (eval_error "Function application is not yet implemented" varmap expr)
      end              
 ;;
