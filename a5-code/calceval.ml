@@ -115,9 +115,25 @@ let rec eval_expr varmap expr =
     end
 
   | Boolop(o) ->                                                     (* boolean operations *)
-     begin                                                           (* PATCH PROBLEM *)
-       raise (eval_error "Boolean operations not yet impelemented" varmap expr)
-     end
+    begin
+      let ldata = eval_expr varmap o.lexpr in
+      let rdata = eval_expr varmap o.rexpr in
+      match ldata,rdata with
+      | (BoolDat li),(BoolDat ri) ->
+         begin
+          match o.op with
+          | And     -> BoolDat  (li && ri)
+          | Or      -> BoolDat  (li || ri)
+          | _       ->
+             raise (eval_error "Booleam Operation not implemented" varmap expr)
+        end
+      | (BoolDat li),rerr ->
+         let msg = sprintf "Expect Int for right arithmetic expression, found '%s'" (data_string rerr) in
+         raise (eval_error msg varmap expr)
+      | lerr,_ ->
+         let msg = sprintf "Expect Int for right arithmetic expression, found '%s'" (data_string lerr) in
+         raise (eval_error msg varmap expr)
+    end
 
   | Cond(c) ->                                                       (* IMPLEMENT #1: conditionals *)
     begin
