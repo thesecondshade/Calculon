@@ -121,12 +121,13 @@ let rec eval_expr varmap expr =
       let ifdata = eval_expr varmap c.if_expr in
       match ifdata with
       | (BoolDat fi) ->
-         begin
+        begin
           match fi with
           | true    -> eval_expr varmap c.then_expr
           | false   -> eval_expr varmap c.else_expr
           | _       ->
              raise (eval_error "Cond not implemented" varmap expr)
+        end
     end
 
 
