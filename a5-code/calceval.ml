@@ -119,9 +119,14 @@ let rec eval_expr varmap expr =
   | Cond(c) ->                                                       (* IMPLEMENT #1: conditionals *)
     begin
       let ifdata = eval_expr varmap c.if_expr in
-      match BoolDat ifdata with
-      | BoolDat true -> eval_expr varmap c.then_expr
-      | BoolDat false -> eval_expr varmap c.else_expr
+      match ifdata with
+      | (BoolDat fi) ->
+         begin
+          match fi with
+          | true    -> eval_expr varmap c.then_expr
+          | false   -> eval_expr varmap c.else_expr
+          | _       ->
+             raise (eval_error "Cond not implemented" varmap expr)
     end
 
 
