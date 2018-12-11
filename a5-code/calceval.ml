@@ -141,12 +141,7 @@ let rec eval_expr varmap expr =
      end
 
   | Lambda(l) ->                                                     (* lambda expressions *)
-     begin
-      let newclose = Closure {param_name = l.param_name; code_expr = l.code_expr; varmap = varmap;} in
-      let new_varmap = Varmap.add l.param_name newclose varmap in
-      eval_expr new_varmap l.code_expr
-     end
-
+      Closure {param_name = l.param_name; code_expr = l.code_expr; varmap = varmap;}
   | Apply(apply) ->                                                  (* function application *)
      begin                                                           (* IMPLEMENT #4: evaluate the application expression *)
        raise (eval_error "Function application is not yet implemented" varmap expr)
