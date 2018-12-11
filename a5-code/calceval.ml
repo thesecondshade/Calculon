@@ -117,9 +117,11 @@ let rec eval_expr varmap expr =
      end
 
   | Cond(c) ->                                                       (* IMPLEMENT #1: conditionals *)
-     begin
-       raise (eval_error "Conditional if/then/else not yet implemented" varmap expr)
-     end
+     let ifdata = eval_expr varmap c.if_expr in
+      match c.op with
+      | If while BoolDat ifdata -> eval_expr varmap c.then_expr
+      | Else -> eval_expr varmap c.else_expr
+
 
   | Letin(l) ->                                                      (* let/in expressions *)
      begin
