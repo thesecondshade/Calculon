@@ -211,7 +211,7 @@ and parse_cond toks =
 and parse_lambda toks =
   (* P3: Fill in cases to m *)
   match toks with 
-  | At :: Ident param_name :: rest ->
+  | Def:: Ident param_name :: At :: rest ->
       begin
         let (code_expr,rest) = parse_expr rest in
         (Lambda{param_name;code_expr}, rest)
