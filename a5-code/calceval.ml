@@ -136,14 +136,14 @@ let rec eval_expr varmap expr =
   | Letin(l) ->                                                      (* let/in expressions *)
      begin
        let var_data = eval_expr varmap l.var_expr in
-       varmap <- Varmap.add l.var_name var_data varmap;
+       let new_varmap = Varmap.add l.var_name var_data varmap in
+       eval_expr new_varmap l.in_expr
      end
 
   | Lambda(l) ->                                                     (* lambda expressions *)
      begin
       let newclose = Closure {param_name = l.param_name; code_expr = l.code_expr; varmap = varmap;} in
-      let new_varmap = Varmap.add l.param_name newclose varmap in
-      eval_expr new_varmap l.code_expr
+      let new_varmap <- Varmap.add l.param_name newclose varmap;
      end
 
   | Apply(apply) ->                                                  (* function application *)
