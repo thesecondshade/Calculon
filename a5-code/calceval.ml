@@ -119,8 +119,13 @@ let rec eval_expr varmap expr =
   | Cond(c) ->                                                       (* IMPLEMENT #1: conditionals *)
      let ifdata = eval_expr varmap c.if_expr in
       match ifdata with
-      | true -> eval_expr varmap c.then_expr
-      | false -> eval_expr varmap c.else_expr
+      | (BoolDat isif) ->
+        begin
+          match isif with
+          | true -> eval_expr varmap c.then_expr
+          | false -> eval_expr varmap c.else_expr
+        end
+      
 
 
   | Letin(l) ->                                                      (* let/in expressions *)
