@@ -179,6 +179,21 @@ and parse_letin toks =
 and parse_cond toks =
   match toks with
   (* P1: FILL IN CASES to parse if/then/else *)
+  | If :: rest ->
+      begin
+        let (if_expr,rest) = parse_expr rest in
+        match rest with
+        | Then :: rest -> 
+            begin
+              let (then_expr,rest) = parse_expr rest in
+              match rest with
+              | Else :: rest ->
+                  let (else_expr,rest) = parse_expr rest in
+                  (Cond{if_expr; then_expr; else_expr}, rest)
+              | _ -> raise (ParseError{msg="Expected 'else' after 'then'"; toks=rest})
+            end
+        | _ -> raise (ParseError{msg="Expected 'then' after 'if'"; toks=rest})
+      end
   | _ -> parse_lambda toks
 
 (* parse a lambda @x <expr> *)
