@@ -140,7 +140,7 @@ let rec eval_expr varmap expr =
        | Closure(c) -> 
         c.varmap <- Varmap.add l.var_name var_data c.varmap;
         let new_varmap = Varmap.add l.var_name var_data varmap in
-        eval_expr new_varmap l.in_exp
+        eval_expr new_varmap l.in_expr
        | _ -> 
         let new_varmap = Varmap.add l.var_name var_data varmap in
         eval_expr new_varmap l.in_expr
