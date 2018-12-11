@@ -119,7 +119,7 @@ let rec eval_expr varmap expr =
   | Cond(c) ->                                                       (* IMPLEMENT #1: conditionals *)
      let ifdata = eval_expr varmap c.if_expr in
       match c.op with
-      | If while BoolDat ifdata -> eval_expr varmap c.then_expr
+      | If when BoolDat ifdata -> eval_expr varmap c.then_expr
       | Else -> eval_expr varmap c.else_expr
 
 
