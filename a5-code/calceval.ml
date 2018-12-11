@@ -128,6 +128,7 @@ let rec eval_expr varmap expr =
           | _       ->
              raise (eval_error "Cond not implemented" varmap expr)
         end
+      | _ -> raise (eval_error "If expression needs to evaluate to a boolean" varmap expr)
     end
 
 
