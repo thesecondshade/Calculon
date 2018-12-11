@@ -76,9 +76,6 @@ let is_letter c =
   loc <> None
 ;;
 
-let check pos len =
-
-
 (* Exception associated with lexing problems *)
 exception LexError of {
     msg : string;
