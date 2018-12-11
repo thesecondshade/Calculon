@@ -120,16 +120,24 @@ let parsetree_string expr =
    tree from a series of tokens. Starts a series of mutually recursive
    functions. *)
 let rec parse_expr tokens =
-  let (expr, rest) as result = parse_addsub tokens in
+  let (expr, rest) as result = parse_compare tokens in
   result
 
 (* parse a number comparison using <, >, or =. These cannot be chained
    together so are simpler than add/sub. *)
 and parse_compare toks =
+  let rec iter lexpr toks =                            
+    match toks with
+    | GreatThan :: rest ->
+       let (rexpr,rest) = parse_addsub rest in
+       iter (Intop{op=Greater;lexpr;rexpr}) rest
+    | LessThan :: rest ->
+       let (rexpr,rest) = parse_addsub rest in
+       iter (Intop{op=Less;lexpr;rexpr}) rest
+    | _ -> (lexpr, toks)
+  in
   let (lexpr, rest) = parse_addsub toks in
-  match rest with
-  (* FILL IN CASES for comparison of values *)
-  | _ -> (lexpr, rest)
+  iter lexpr rest  
 
 (* parse addition and subtraction, left-associative *)
 and parse_addsub toks =
