@@ -215,7 +215,7 @@ and parse_lambda toks =
       begin
         let (param_name,rest) = parse_expr rest in
         let (code_expr,rest) = parse_expr rest in
-        (Lambda{func_name;code_expr}, rest)
+        (Lambda{param_name;code_expr}, rest)
       end
   | _ -> parse_apply toks
 
