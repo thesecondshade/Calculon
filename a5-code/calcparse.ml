@@ -134,6 +134,9 @@ and parse_compare toks =
     | LessThan :: rest ->
        let (rexpr,rest) = parse_addsub rest in
        iter (Intop{op=Less;lexpr;rexpr}) rest
+    | Equal :: rest ->
+       let (rexpr,rest) = parse_addsub rest in
+       iter (Intop{op=Equal;lexpr;rexpr}) rest
     | _ -> (lexpr, toks)
   in
   let (lexpr, rest) = parse_addsub toks in
