@@ -213,7 +213,6 @@ and parse_lambda toks =
   match toks with 
   | At :: Ident param_name :: rest ->
       begin
-        let (param_name,rest) = parse_expr rest in
         let (code_expr,rest) = parse_expr rest in
         (Lambda{param_name;code_expr}, rest)
       end
