@@ -211,6 +211,12 @@ and parse_cond toks =
 and parse_lambda toks =
   (* P3: Fill in cases to m *)
   match toks with 
+  | At :: Ident func_name :: rest ->
+      begin
+        let (param_name,rest) = parse_expr rest in
+        let (code_expr,rest) = parse_expr rest in
+        (Lambda{func_name;code_expr}, rest)
+      end
   | _ -> parse_apply toks
 
 (* Parse a function application which is left-associative. Repeatedly
