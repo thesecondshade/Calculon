@@ -142,7 +142,7 @@ let rec eval_expr varmap expr =
 
   | Lambda(l) ->                                                     (* lambda expressions *)
      begin
-      let newclose = Closure{l.param_name; l.code_expr; varmap};
+      let newclose = {param_name : l.param_name; code_expr : l.code_expr; varmap : varmap;};
      end
 
   | Apply(apply) ->                                                  (* function application *)
