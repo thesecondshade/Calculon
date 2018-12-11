@@ -136,7 +136,7 @@ let rec eval_expr varmap expr =
   | Letin(l) ->                                                      (* let/in expressions *)
      begin
        let var_data = eval_expr varmap l.var_expr in
-       new_varmap <- Varmap.add l.var_name var_data varmap;
+       varmap <- Varmap.add l.var_name var_data varmap;
      end
 
   | Lambda(l) ->                                                     (* lambda expressions *)
