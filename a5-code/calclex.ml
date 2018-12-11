@@ -101,7 +101,6 @@ let lex_string string =
       |';' -> Semicolon :: (lex (pos+1))
       |'<' -> LessThan  :: (lex (pos+1))
       |'>' -> GreatThan :: (lex (pos+1))
-      |'=' -> Equal     :: (lex (pos+1))
       | d when is_digit d ->                                 (* see a digit *)
          let stop = ref pos in                               (* scan through until a non-digit is found *)
          while !stop < len && is_digit string.[!stop] do
