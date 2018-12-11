@@ -144,7 +144,7 @@ let rec eval_expr varmap expr =
      begin
       let name_data = l.param_name in
       let curr =l.code_expr in
-      let newclose = Closure{name_data; curr; varmap;} in
+      let newclose = Closure{param_name: name_data; curr; varmap;} in
       Varmap.add l.param_name newclose varmap;
      end
 
