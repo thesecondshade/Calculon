@@ -125,8 +125,6 @@ let rec eval_expr varmap expr =
           match fi with
           | true    -> eval_expr varmap c.then_expr
           | false   -> eval_expr varmap c.else_expr
-          | _       ->
-             raise (eval_error "Cond not implemented" varmap expr)
         end
       | _ -> raise (eval_error "If expression needs to evaluate to a boolean" varmap expr)
     end
