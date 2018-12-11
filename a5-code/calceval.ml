@@ -136,8 +136,12 @@ let rec eval_expr varmap expr =
   | Letin(l) ->                                                      (* let/in expressions *)
      begin
        let var_data = eval_expr varmap l.var_expr in
-       let new_varmap = Varmap.add l.var_name var_data varmap in
-       eval_expr new_varmap l.in_expr
+       match var_data with 
+       | Closure(c) -> 
+        c.varmap <- Varmap.add l.var_name var_data c.varmap;
+       | _ -> 
+        let new_varmap = Varmap.add l.var_name var_data varmap in
+        eval_expr new_varmap l.in_expr
      end
 
   | Lambda(l) ->                                                     (* lambda expressions *)
