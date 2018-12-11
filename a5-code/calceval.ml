@@ -100,6 +100,9 @@ let rec eval_expr varmap expr =
           | Sub     -> IntDat  (li - ri)
           | Mul     -> IntDat  (li * ri)
           | Div     -> IntDat  (li / ri)
+          | Greater -> BoolDat (li > ri)
+          | Less    -> BoolDat (li < ri)
+          | Equal   -> BoolDat (li = ri)
           | _       ->
              raise (eval_error "Integer Operation not implemented" varmap expr)
         end
