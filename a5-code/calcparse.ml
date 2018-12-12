@@ -120,8 +120,27 @@ let parsetree_string expr =
    tree from a series of tokens. Starts a series of mutually recursive
    functions. *)
 let rec parse_expr tokens =
-  let (expr, rest) as result = parse_and tokens in
+  let (expr, rest) as result = parse_compare tokens in
   result
+
+(* parse a number comparison using <, >, or =. These cannot be chained
+   together so are simpler than add/sub. *)
+and parse_compare toks =
+  let rec iter lexpr toks =                            
+    match toks with
+    | GreatThan :: rest ->
+       let (rexpr,rest) = parse_and rest in
+       iter (Intop{op=Greater;lexpr;rexpr}) rest
+    | LessThan :: rest ->
+       let (rexpr,rest) = parse_and rest in
+       iter (Intop{op=Less;lexpr;rexpr}) rest
+    | Equal :: rest ->
+       let (rexpr,rest) = parse_and rest in
+       iter (Intop{op=Equal;lexpr;rexpr}) rest
+    | _ -> (lexpr, toks)
+  in
+  let (lexpr, rest) = parse_and toks in
+  iter lexpr rest  
 
 and parse_and toks =
   let rec iter lexpr toks =  
@@ -138,31 +157,12 @@ and parse_or toks =
   let rec iter lexpr toks =  
   match toks with
     | Or :: rest ->
-        let (rexpr,rest) = parse_compare rest in
+        let (rexpr,rest) = parse_addsub rest in
         iter (Boolop{op=Or;lexpr;rexpr}) rest
     | _ -> (lexpr, toks)
     in
-    let (lexpr, rest) = parse_compare toks in
+    let (lexpr, rest) = parse_addsub toks in
     iter lexpr rest
-
-(* parse a number comparison using <, >, or =. These cannot be chained
-   together so are simpler than add/sub. *)
-and parse_compare toks =
-  let rec iter lexpr toks =                            
-    match toks with
-    | GreatThan :: rest ->
-       let (rexpr,rest) = parse_addsub rest in
-       iter (Intop{op=Greater;lexpr;rexpr}) rest
-    | LessThan :: rest ->
-       let (rexpr,rest) = parse_addsub rest in
-       iter (Intop{op=Less;lexpr;rexpr}) rest
-    | Equal :: rest ->
-       let (rexpr,rest) = parse_addsub rest in
-       iter (Intop{op=Equal;lexpr;rexpr}) rest
-    | _ -> (lexpr, toks)
-  in
-  let (lexpr, rest) = parse_addsub toks in
-  iter lexpr rest  
 
 (* parse addition and subtraction, left-associative *)
 and parse_addsub toks =
