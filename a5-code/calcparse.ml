@@ -151,17 +151,17 @@ and parse_compare toks =
   let rec iter lexpr toks =                            
     match toks with
     | GreatThan :: rest ->
-       let (rexpr,rest) = parse_addsub rest in
+       let (rexpr,rest) = parse_expr rest in
        iter (Intop{op=Greater;lexpr;rexpr}) rest
     | LessThan :: rest ->
-       let (rexpr,rest) = parse_addsub rest in
+       let (rexpr,rest) = parse_expr rest in
        iter (Intop{op=Less;lexpr;rexpr}) rest
     | Equal :: rest ->
-       let (rexpr,rest) = parse_addsub rest in
+       let (rexpr,rest) = parse_expt rest in
        iter (Intop{op=Equal;lexpr;rexpr}) rest
     | _ -> (lexpr, toks)
   in
-  let (lexpr, rest) = parse_addsub toks in
+  let (lexpr, rest) = parse_expr toks in
   iter lexpr rest  
 
 (* parse addition and subtraction, left-associative *)
