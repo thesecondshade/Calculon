@@ -124,25 +124,28 @@ let rec parse_expr tokens =
   result
 
 and parse_and toks =
-  match toks with
-  | And :: rest ->
-      let (rexpr,rest) = parse_or rest in
-      iter (Boolop{op=And;lexpr;rexpr}) rest
-  | _ -> (lexpr, toks)
-  in
-  let (lexpr, rest) = parse_or toks in
-  iter lexpr rest
-
-and parse_or toks =
-  match toks with
-    | Or :: rest ->
-        let (rexpr,rest) = parse_compare rest in
-        iter (Boolop{op=Or;lexpr;rexpr}) rest
+  begin
+    match toks with
+    | And :: rest ->
+        let (rexpr,rest) = parse_or rest in
+        iter (Boolop{op=And;lexpr;rexpr}) rest
     | _ -> (lexpr, toks)
     in
-    let (lexpr, rest) = parse_compare toks in
+    let (lexpr, rest) = parse_or toks in
     iter lexpr rest
+  end
 
+and parse_or toks =
+  begin
+    match toks with
+      | Or :: rest ->
+          let (rexpr,rest) = parse_compare rest in
+          iter (Boolop{op=Or;lexpr;rexpr}) rest
+      | _ -> (lexpr, toks)
+      in
+      let (lexpr, rest) = parse_compare toks in
+      iter lexpr rest
+  end      
 (* parse a number comparison using <, >, or =. These cannot be chained
    together so are simpler than add/sub. *)
 and parse_compare toks =
