@@ -122,27 +122,6 @@ let parsetree_string expr =
 let rec parse_expr tokens =
   let (expr, rest) as result = parse_compare tokens in
   result
-and parse_and toks =
-  let rec iter lexpr toks =  
-    match toks with
-    | And :: rest ->
-        let (rexpr,rest) = parse_or rest in
-        iter (Boolop{op=And;lexpr;rexpr}) rest
-    | _ -> (lexpr, toks)
-  in
-  let (lexpr, rest) = parse_or toks in
-  iter lexpr rest
-
-and parse_or toks =
-  let rec iter lexpr toks =  
-    match toks with
-    | Or :: rest ->
-        let (rexpr,rest) = parse_compare rest in
-        iter (Boolop{op=Or;lexpr;rexpr}) rest
-    | _ -> (lexpr, toks)
-  in
-  let (lexpr, rest) = parse_compare toks in
-  iter lexpr rest
 
 (* parse a number comparison using <, >, or =. These cannot be chained
    together so are simpler than add/sub. *)
