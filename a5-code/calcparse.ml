@@ -136,13 +136,14 @@ and parse_and toks =
 and parse_or toks =
   let rec iter lexpr toks =  
     match toks with
-      | Or :: rest ->
-          let (rexpr,rest) = parse_compare rest in
-          iter (Boolop{op=Or;lexpr;rexpr}) rest
-      | _ -> (lexpr, toks)
+    | Or :: rest ->
+        let (rexpr,rest) = parse_compare rest in
+        iter (Boolop{op=Or;lexpr;rexpr}) rest
+    | _ -> (lexpr, toks)
   in
   let (lexpr, rest) = parse_compare toks in
   iter lexpr rest
+
 
 (* parse a number comparison using <, >, or =. These cannot be chained
    together so are simpler than add/sub. *)
