@@ -128,10 +128,10 @@ let rec eval_expr varmap expr =
              raise (eval_error "Booleam Operation not implemented" varmap expr)
         end
       | (BoolDat li),rerr ->
-         let msg = sprintf "Expect Int for right arithmetic expression, found '%s'" (data_string rerr) in
+         let msg = sprintf "Expect Bool for right arithmetic expression, found '%s'" (data_string rerr) in
          raise (eval_error msg varmap expr)
       | lerr,_ ->
-         let msg = sprintf "Expect Int for right arithmetic expression, found '%s'" (data_string lerr) in
+         let msg = sprintf "Expect Bool for right arithmetic expression, found '%s'" (data_string lerr) in
          raise (eval_error msg varmap expr)
     end
 

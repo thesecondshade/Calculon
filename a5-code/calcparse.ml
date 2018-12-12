@@ -127,7 +127,7 @@ and parse_and toks =
   match toks with
   | And :: rest ->
       let (rexpr,rest) = parse_or rest in
-      iter (Boolop{op=And;lexpr;rexpr}) rest)
+      iter (Boolop{op=And;lexpr;rexpr}) rest
   | _ -> (lexpr, toks)
   in
   let (lexpr, rest) = parse_or toks in
@@ -137,7 +137,7 @@ and parse_or toks =
   match toks with
     | Or :: rest ->
         let (rexpr,rest) = parse_compare rest in
-        iter (Boolop{op=Or;lexpr;rexpr}) rest)
+        iter (Boolop{op=Or;lexpr;rexpr}) rest
     | _ -> (lexpr, toks)
     in
     let (lexpr, rest) = parse_compare toks in
